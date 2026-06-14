@@ -1,0 +1,30 @@
+{
+  "name": "entregable-6",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mui/icons-material": "^5.10.6",
+    "@reduxjs/toolkit": "^1.8.5",
+    "aws-sdk": "^1.18.0",
+    "axios": "^1.8.4",
+    "bootswatch": "^5.2.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.36.1",
+    "react-redux": "^8.0.4",
+    "react-router-dom": "^6.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16"
+  }
+}
