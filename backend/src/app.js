@@ -36,3 +36,5 @@ app.use('/api/v1', CategoriesRoutes);
 app.use(hendleError);
 
 module.exports = app;
+
+//npm install aws-sdk bcrypt cors dotenv express jsonwebtoken multer nodemailer pg pg-hstore sequelize swagger-jsdoc swagger-ui-express
