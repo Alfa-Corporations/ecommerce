@@ -14,7 +14,7 @@ const DeleteUser = ({ show, setShowFunction }) => {
 
   const submit = () => {
     if (Number(userSelected) === 0) {
-      dispatch(setTitleModal('Select a user'));
+      dispatch(setTitleModal('Seleccione un usuario'));
       dispatch(setHandleShow(true));
       setTimeout(() => {
         dispatch(setHandleShow(false));
@@ -22,7 +22,7 @@ const DeleteUser = ({ show, setShowFunction }) => {
       return;
     }
 
-    axios.delete(`https://api-ecommerce.alfauzcat.com/api/v1/user/${userSelected}`, getConfig()).then(() => {
+    axios.delete(`${API_URL}/api/v1/user/${userSelected}`, getConfig()).then(() => {
       dispatch(setTitleModal('Deleted user'));
       dispatch(setHandleShow(true));
       setTimeout(() => {
@@ -36,15 +36,15 @@ const DeleteUser = ({ show, setShowFunction }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete User</Modal.Title>
+        <Modal.Title>Eliminar usuario</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Are you sure you want to delete a user?</h4>
-        <p>Select the user to delete:</p>
+        <h4>¿Seguro que deseas eliminar un usuario?</h4>
+        <p>Selecciona el usuario que deseas eliminar:</p>
         <Form onSubmit={submit}>
           <FormSelect className='mb-4' defaultValue={0} onChange={e => setUserSelected(e.target.value)}>
             <option value={0} disabled>
-              Select a user
+              Seleccione un usuario
             </option>
             {users.map(user => (
               <option value={user.id} key={user.id}>
@@ -53,7 +53,7 @@ const DeleteUser = ({ show, setShowFunction }) => {
             ))}
           </FormSelect>
           <button type='submit' className='btn_admin'>
-            Delete User
+            Eliminar usuario
           </button>
         </Form>
       </Modal.Body>

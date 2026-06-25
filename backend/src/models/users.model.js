@@ -207,10 +207,10 @@ const bcrypt = require('bcrypt');
 */
 
 
-const code = () => Math.ceil( Math.random() * 999999 );
+const code = () => Math.ceil(Math.random() * 999999);
 
 const Users = db.define('users', {
-    
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -239,6 +239,21 @@ const Users = db.define('users', {
         type: DataTypes.STRING,
         allowNull: true,
         field: "phone_number"
+    },
+    cedula: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        field: "cedula"
+    },
+    isApproved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        field: "is_approved"
+    },
+    isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        field: "is_active"
     },
     password: {
         type: DataTypes.STRING,

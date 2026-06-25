@@ -15,9 +15,9 @@ const Verify = ({ show, user }) => {
   const submit = data => {
     data.codeVerify = Number(data.codeVerify);
     axios
-      .put(`https://api-ecommerce.alfauzcat.com/api/v1/user/${id}/verify`, data, getConfig())
-      .then(res => {
-        dispatch(setTitleModal('Successful verification'));
+      .put(`${API_URL}/api/v1/user/${id}/verify`, data, getConfig())
+      .then(() => {
+        dispatch(setTitleModal('Verificación exitosa'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -30,7 +30,7 @@ const Verify = ({ show, user }) => {
       })
       .catch(error => {
         console.log(error);
-        dispatch(setTitleModal('Error in verification'));
+        dispatch(setTitleModal('Error en la verificación'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -40,17 +40,17 @@ const Verify = ({ show, user }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={show} backdrop='static' keyboard={false}>
       <Modal.Header>
-        <Modal.Title>Verify User</Modal.Title>
+        <Modal.Title>Verificar usuario</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>You have not verified your email!</h4>
-        <p>We sent you an email where you received a verification code</p>
+        <h4>¡No has verificado tu correo electrónico!</h4>
+        <p>Te enviamos un código de verificación al correo registrado.</p>
         <Form onSubmit={handleSubmit(submit)}>
-          <Form.FloatingLabel label='Enter code' className='mb-4'>
-            <Form.Control type='number' placeholder='Enter code' {...register('codeVerify', { required: true })} />
+          <Form.FloatingLabel label='Código' className='mb-4'>
+            <Form.Control type='number' placeholder='Ingresa el código' {...register('codeVerify', { required: true })} />
           </Form.FloatingLabel>
           <button type='submit' className='btn_admin'>
-            Verify
+            Verificar
           </button>
         </Form>
       </Modal.Body>

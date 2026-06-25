@@ -14,7 +14,7 @@ const DeleteRole = ({ show, setShowFunction }) => {
 
   const submit = () => {
     if (Number(roleNumber) === 0) {
-      dispatch(setTitleModal('Select a role'));
+      dispatch(setTitleModal('Seleccione un rol'));
       dispatch(setHandleShow(true));
       setTimeout(() => {
         dispatch(setHandleShow(false));
@@ -22,7 +22,7 @@ const DeleteRole = ({ show, setShowFunction }) => {
       return;
     }
 
-    axios.delete(`https://api-ecommerce.alfauzcat.com/api/v1/role/${roleNumber}`, getConfig()).then(() => {
+    axios.delete(`${API_URL}/api/v1/role/${roleNumber}`, getConfig()).then(() => {
       dispatch(setTitleModal('Deleted role'));
       dispatch(setHandleShow(true));
       setTimeout(() => {
@@ -36,15 +36,15 @@ const DeleteRole = ({ show, setShowFunction }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete Role</Modal.Title>
+        <Modal.Title>Eliminar rol</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Are you sure you want to delete a role?</h4>
-        <p>Select the role to delete:</p>
+        <h4>¿Seguro que deseas eliminar un rol?</h4>
+        <p>Selecciona el rol que deseas eliminar:</p>
         <Form onSubmit={submit}>
           <FormSelect className='mb-4' defaultValue={0} onChange={e => setRoleNumber(e.target.value)}>
             <option value={0} disabled>
-              Select a role
+              Seleccione un rol
             </option>
             {roles.map(role => (
               <option value={role.id} key={role.id}>
@@ -53,7 +53,7 @@ const DeleteRole = ({ show, setShowFunction }) => {
             ))}
           </FormSelect>
           <button type='submit' className='btn_admin'>
-            Delete Role
+            Eliminar rol
           </button>
         </Form>
       </Modal.Body>

@@ -8,6 +8,7 @@ import { setHandleShow } from '../store/slices/handleShow.slice';
 import { getProductsThunk } from '../store/slices/products.slice';
 import { setTitleModal } from '../store/slices/titleModal.slice';
 import getConfig from '../utils/getConfig';
+import { API_URL } from '../utils/api';
 
 const Cart = ({ show, handleClose }) => {
   const cartList = useSelector(state => state.cart);
@@ -36,10 +37,10 @@ const Cart = ({ show, handleClose }) => {
 
   const deleteItem = id => {
     axios
-      .delete(`https://api-ecommerce.alfauzcat.com/api/v1/user/cart/product/${id}`, getConfig())
+      .delete(`${API_URL}/api/v1/user/cart/product/${id}`, getConfig())
       .then(() => {
         dispatch(getSetCart(user.id));
-        dispatch(setTitleModal('Removed product'));
+        dispatch(setTitleModal('Producto Eeliminado'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -50,6 +51,18 @@ const Cart = ({ show, handleClose }) => {
         dispatch(getSetCart(user.id));
         dispatch(getProductsThunk());
       });
+  };
+
+  const handlePurchase = () => {
+    if (!user.id) {
+      navigate('/login');
+      handleClose();
+      return;
+    }
+    dispatch(purchasesCartThunk(user.id)).then(() => {
+      dispatch(getSetCart(user.id));
+      dispatch(getProductsThunk());
+    });
   };
 
   const pucharse = () => {
@@ -64,11 +77,11 @@ const Cart = ({ show, handleClose }) => {
     <Offcanvas show={show} onHide={handleClose} placement='end'>
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          <b>Shoppign Cart</b>
+          <b>Carrito de Compras</b>
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        {cartList.length < 1 && <img src='https://www.99fashionbrands.com/wp-content/uploads/2020/12/empty_cart.png' alt='img of the cart empty' style={{ width: '100%', height: 'auto' }} />}
+        {cartList.length < 1 && <img src='https://www.evergreen-restaurant.us/static/media/empty.afa6a28d.png' alt='img of the cart empty' style={{ width: '100%', height: 'auto' }} />}
         <ul className='cart-container'>
           {cartList.map(itemCart => (
             <li key={itemCart.id}>
@@ -92,8 +105,8 @@ const Cart = ({ show, handleClose }) => {
           <span>Total:</span>
           <b>$ {total()}</b>
         </article>
-        <button className='btn-buy' onClick={pucharse}>
-          Checkout
+        <button className='btn-buy' onClick={handlePurchase}>
+          Comprar
         </button>
       </section>
     </Offcanvas>

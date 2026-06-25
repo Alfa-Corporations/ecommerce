@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
+const Jimp = require('jimp');
 
 const UpPhoto = async (files) => {
     const uploadsDir = path.join(__dirname, '../../uploads');
@@ -14,10 +14,10 @@ const UpPhoto = async (files) => {
             const filename = `${timestamp}-${safeName}.webp`;
             const filepath = path.join(uploadsDir, filename);
 
-            const processedBuffer = await sharp(file.buffer)
-                .resize({ width: 1280, withoutEnlargement: true })
-                .webp({ quality: 80 })
-                .toBuffer();
+            const image = await Jimp.read(file.buffer);
+            image.resize(1280, Jimp.AUTO);
+            image.quality(80);
+            const processedBuffer = await image.getBufferAsync(Jimp.MIME_WEBP);
 
             await fs.promises.writeFile(filepath, processedBuffer);
             return `/uploads/${encodeURIComponent(filename)}`;

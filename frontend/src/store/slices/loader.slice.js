@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { API_URL } from '../../utils/api';
 
 export const loaderSlice = createSlice({
     name: 'loader',
-    initialState: false ,
+    initialState: false,
     reducers: {
         setLoader: (state, action) => {
             const loader = action.payload

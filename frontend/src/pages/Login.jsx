@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoader, setHandleShow, setTitleModal, setLogged, setCart } from '../store/slices';
+import { API_URL } from '../utils/api';
 import { Accordion } from 'react-bootstrap';
 import NewUser from '../components/modals/NewUser';
 import NewProduct from '../components/modals/NewProduct';
@@ -35,7 +36,7 @@ const Login = () => {
 
   const submit = userData => {
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/login', userData)
+      .post(`${API_URL}/api/v1/login`, userData)
       .then(res => {
         window.localStorage.setItem('token', res.data.token);
         window.localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -56,7 +57,7 @@ const Login = () => {
 
   const userRegister = newUser => {
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/user', newUser)
+      .post(`${API_URL}/api/v1/user`, newUser)
       .then(() => {
         dispatch(setTitleModal('Successful registration'));
         dispatch(setHandleShow(true));
@@ -115,69 +116,85 @@ const Login = () => {
         roleId !== 1 ? (
           <div className='login-successful'>
             <h4>
-              Hi! {firstName} {lastName} welcome
+              ¡Hola! {firstName} {lastName}
             </h4>
             <a href='#' onClick={logout}>
-              Log out
+              Cerrar sesión
             </a>
           </div>
         ) : (
           <article className='login-successful'>
             <section>
               <h4>
-                Hi! {firstName} {lastName} welcome
+                ¡Hola! {firstName} {lastName}
               </h4>
-              <p>Here you can manage the products and users</p>
+              <p>A continuación puedes gestionar productos, usuarios, roles y categorías de la ferretería.</p>
             </section>
             <section className='admin-section__buttons'>
               <Accordion>
                 <Accordion.Item eventKey='0'>
-                  <Accordion.Header>User Management</Accordion.Header>
+                  <Accordion.Header>Gestión de usuarios</Accordion.Header>
                   <Accordion.Body className='btn_admin_management'>
                     <button className='btn_admin' onClick={() => setShow(1)}>
-                      <b className='material-symbols-outlined'>add</b> Users
+                      <b className='material-symbols-outlined'>add</b> Agregar usuario
                     </button>
                     <button className='btn_admin' onClick={() => setShow(2)}>
-                      <b className='material-symbols-outlined'>remove</b> Users
+                      <b className='material-symbols-outlined'>remove</b> Eliminar usuario
                     </button>
                   </Accordion.Body>
                 </Accordion.Item>
+                <Accordion.Item eventKey='4'>
+                  <Accordion.Header>Gestión de pedidos</Accordion.Header>
+                  <Accordion.Body className='btn_admin_management'>
+                    <button className='btn_admin' onClick={() => navigate('/admin/orders')}>
+                      <b className='material-symbols-outlined'>inventory_2</b> Gestionar pedidos
+                    </button>
+                  </Accordion.Body>
+                </Accordion.Item>{' '}
+                <Accordion.Item eventKey='5'>
+                  <Accordion.Header>Gestión de usuarios</Accordion.Header>
+                  <Accordion.Body className='btn_admin_management'>
+                    <button className='btn_admin' onClick={() => navigate('/admin/users')}>
+                      <b className='material-symbols-outlined'>people</b> Gestionar usuarios
+                    </button>
+                  </Accordion.Body>
+                </Accordion.Item>{' '}
                 <Accordion.Item eventKey='1'>
-                  <Accordion.Header>Product Management</Accordion.Header>
+                  <Accordion.Header>Gestión de productos</Accordion.Header>
                   <Accordion.Body className='btn_admin_management'>
                     <button className='btn_admin' onClick={() => setShow(3)}>
-                      <b className='material-symbols-outlined'>add</b> Products
+                      <b className='material-symbols-outlined'>add</b> Agregar producto
                     </button>
                     <button className='btn_admin' onClick={() => setShow(4)}>
-                      <b className='material-symbols-outlined'>remove</b> Products
+                      <b className='material-symbols-outlined'>remove</b> Eliminar producto
                     </button>
                     <button className='btn_admin' onClick={() => setShow(5)}>
-                      <b className='material-symbols-outlined'>update</b> Products
+                      <b className='material-symbols-outlined'>update</b> Actualizar producto
                     </button>
                     <button className='btn_admin' onClick={() => setShow(6)}>
-                      <b className='material-symbols-outlined'>update</b> Stock
+                      <b className='material-symbols-outlined'>update</b> Actualizar stock
                     </button>
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='2'>
-                  <Accordion.Header>Roles Management</Accordion.Header>
+                  <Accordion.Header>Gestión de roles</Accordion.Header>
                   <Accordion.Body className='btn_admin_management'>
                     <button className='btn_admin' onClick={() => setShow(7)}>
-                      <b className='material-symbols-outlined'>add</b> Role
+                      <b className='material-symbols-outlined'>add</b> Agregar rol
                     </button>
                     <button className='btn_admin' onClick={() => setShow(8)}>
-                      <b className='material-symbols-outlined'>remove</b> Role
+                      <b className='material-symbols-outlined'>remove</b> Eliminar rol
                     </button>
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey='3'>
-                  <Accordion.Header>Category Management</Accordion.Header>
+                  <Accordion.Header>Gestión de categorías</Accordion.Header>
                   <Accordion.Body className='btn_admin_management'>
                     <button className='btn_admin' onClick={() => setShow(9)}>
-                      <b className='material-symbols-outlined'>add</b> Category
+                      <b className='material-symbols-outlined'>add</b> Agregar categoría
                     </button>
                     <button className='btn_admin' onClick={() => setShow(10)}>
-                      <b className='material-symbols-outlined'>remove</b> Category
+                      <b className='material-symbols-outlined'>remove</b> Eliminar categoría
                     </button>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -192,40 +209,41 @@ const Login = () => {
         <div className='form-container'>
           {loginSignup ? (
             <form onSubmit={handleSubmit(submit)}>
-              <h2>Welcome! enter you email and password to continue</h2>
+              <h2>¡Bienvenido! Ingresa tu correo y contraseña para continuar</h2>
               <article className='test-data'>
-                <b>Test data</b>
+                <b>Datos de prueba</b>
                 <p>john@gmail.com</p>
                 <p>john1234</p>
               </article>
-              <input type='email' placeholder='Email' {...register('email')} />
+              <input type='email' placeholder='Correo electrónico' {...register('email')} />
               <div className='input-password'>
                 <input type={typeInput} placeholder='Password' {...register('password')} />
                 <span onClick={() => isVisible()} className='material-symbols-outlined is-visible'>
                   {visibility}
                 </span>
               </div>
-              <button>Login</button>
+              <button>Iniciar sesión</button>
               <p>
-                Don't have an account? <span onClick={() => changeSection()}>Sign up</span>
+                ¿No tienes cuenta? <span onClick={() => changeSection()}>Regístrate</span>
               </p>
             </form>
           ) : (
             <form onSubmit={handleSubmit(userRegister)}>
-              <h2>Sign up</h2>
-              <input type='email' placeholder='Email' {...register('email')} />
-              <input type='text' placeholder='Fisrt Name' {...register('firstName')} />
-              <input type='text' placeholder='Last Name' {...register('lastName')} />
+              <h2>Crear cuenta</h2>
+              <input type='email' placeholder='Correo electrónico' {...register('email')} />
+              <input type='text' placeholder='Nombre' {...register('firstName')} />
+              <input type='text' placeholder='Apellido' {...register('lastName')} />
               <div className='input-password'>
-                <input type={typeInput} placeholder='Password' {...register('password')} />
+                <input type={typeInput} placeholder='Contraseña' {...register('password')} />
                 <span onClick={() => isVisible()} className='material-symbols-outlined is-visible'>
                   {visibility}
                 </span>
               </div>
-              <input type='text' placeholder='Phone Number' {...register('phoneNumber')} />
-              <button>Sign up</button>
+              <input type='text' placeholder='Teléfono' {...register('phoneNumber')} />
+              <input type='text' placeholder='Cédula' {...register('cedula')} />
+              <button>Crear cuenta</button>
               <p>
-                Already have an account? <span onClick={() => changeSection()}>Login</span>
+                ¿Ya tienes cuenta? <span onClick={() => changeSection()}>Inicia sesión</span>
               </p>
             </form>
           )}

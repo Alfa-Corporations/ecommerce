@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { API_URL } from '../../utils/api';
 
 export const LoggedSlice = createSlice({
     name: 'logged',

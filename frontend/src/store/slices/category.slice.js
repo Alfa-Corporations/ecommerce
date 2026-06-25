@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { API_URL } from '../../utils/api';
 import axios from 'axios';
 import { setLoader } from './loader.slice';
 
@@ -15,8 +16,10 @@ export const categorySlice = createSlice({
 
 export const getCategoryThunk = () => dispatch => {
   dispatch(setLoader(true));
-  axios.get('https://api-ecommerce.alfauzcat.com/api/v1/categories').then(res => dispatch(setCategory(res.data)));
-  //.finally(() => dispatch(setLoader(false)))
+  axios.get(`${API_URL}/api/v1/categories`)
+    .then(res => dispatch(setCategory(res.data)))
+    .catch(error => console.error('Category fetch failed:', error))
+    .finally(() => dispatch(setLoader(false)));
 };
 
 export const { setCategory } = categorySlice.actions;

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setHandleShow, setTitleModal } from '../../store/slices';
 import { getRolesThunk } from '../../store/slices/roles.slice';
 import getConfig from '../../utils/getConfig';
+import { API_URL } from '../../utils/api';
 
 const NewRole = ({ show, setShowFunction }) => {
   const valid = show === 7;
@@ -13,9 +14,9 @@ const NewRole = ({ show, setShowFunction }) => {
 
   const submit = data => {
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/role', data, getConfig())
+      .post(`${API_URL}/api/v1/role`, data, getConfig())
       .then(() => {
-        dispatch(setTitleModal('Created role'));
+        dispatch(setTitleModal('Rol creado correctamente'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -23,28 +24,35 @@ const NewRole = ({ show, setShowFunction }) => {
         dispatch(getRolesThunk());
         setShowFunction(0);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.error(error);
+        dispatch(setTitleModal('Error al crear el rol'));
+        dispatch(setHandleShow(true));
+        setTimeout(() => {
+          dispatch(setHandleShow(false));
+        }, 2000);
+      });
   };
 
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Add new Role</Modal.Title>
+        <Modal.Title>Agregar nuevo rol</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: '1rem' }}>
         <Form onSubmit={handleSubmit(submit)}>
           <Form.Group className='mb-3'>
-            <FloatingLabel className='mb-2' label='Name'>
-              <Form.Control {...register('name')} type='text' placeholder='Name' />
+            <FloatingLabel className='mb-2' label='Nombre'>
+              <Form.Control {...register('name')} type='text' placeholder='Nombre' />
             </FloatingLabel>
 
-            <FloatingLabel className='mb-2' label='Description'>
-              <Form.Control {...register('description')} type='text' placeholder='Enter Description' />
+            <FloatingLabel className='mb-2' label='Descripción'>
+              <Form.Control {...register('description')} type='text' placeholder='Descripción' />
             </FloatingLabel>
           </Form.Group>
 
           <button type='submit' className='btn_admin'>
-            Create Role
+            Crear rol
           </button>
         </Form>
       </Modal.Body>

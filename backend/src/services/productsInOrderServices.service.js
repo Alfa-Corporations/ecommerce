@@ -1,4 +1,4 @@
-const { ProductsInOrder, Cart, ProductsInCart, Order, Products } = require('../models');
+const { ProductsInOrder, Cart, ProductsInCart, Order, Products, Users } = require('../models');
 
 class ProductsInOrderServices {
     static async purchases(id) {
@@ -15,7 +15,7 @@ class ProductsInOrderServices {
             const order = await Order.create({
                 userId: id,
                 totalPrice: cart.totalPrice,
-                status: "Purchase"
+                status: "Confirmado"
             });
 
             const { cartProduct } = cart;
@@ -78,3 +78,62 @@ class ProductsInOrderServices {
 }
 
 module.exports = ProductsInOrderServices;
+
+// Additional admin helpers
+ProductsInOrderServices.getAllOrders = async function () {
+    try {
+        const orders = await Order.findAll({
+            attributes: ["id", "totalPrice", "status", "createdAt", "updatedAt"],
+            include: [
+                {
+                    model: ProductsInOrder,
+                    as: 'orderProduct',
+                    attributes: ['id', 'productId', 'price', 'quantity', 'total'],
+                    include: {
+                        model: Products,
+                        as: 'product',
+                        attributes: ['id', 'title', 'productImgs']
+                    }
+                },
+                {
+                    model: Users,
+                    as: 'user',
+                    attributes: ['id', 'firstName', 'lastName', 'email']
+                }
+            ]
+        });
+        return orders;
+    } catch (error) {
+        throw error;
+    }
+};
+
+ProductsInOrderServices.updateOrderStatus = async function (orderId, status) {
+    try {
+        await Order.update({ status }, { where: { id: orderId } });
+        const updated = await Order.findOne({
+            where: { id: orderId },
+            attributes: ["id", "totalPrice", "status", "createdAt", "updatedAt", "userId"],
+            include: [
+                {
+                    model: ProductsInOrder,
+                    as: 'orderProduct',
+                    attributes: ['id', 'productId', 'price', 'quantity', 'total'],
+                    include: {
+                        model: Products,
+                        as: 'product',
+                        attributes: ['id', 'title', 'productImgs']
+                    }
+                },
+                {
+                    model: Users,
+                    as: 'user',
+                    attributes: ['id', 'firstName', 'lastName', 'email']
+                }
+            ]
+        });
+        return updated;
+    } catch (error) {
+        throw error;
+    }
+};

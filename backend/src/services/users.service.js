@@ -17,16 +17,16 @@ class UserServices {
             const result = await Users.findOne({
                 where: { id },
                 attributes: ["codeVerify"]
-              });
-              if (result === null) return result;
-              if (code === result.dataValues.codeVerify) {
+            });
+            if (result === null) return result;
+            if (code === result.dataValues.codeVerify) {
                 const userVerified = await Users.update({ isVerify: true }, {
-                  where: { id }
+                    where: { id }
                 })
                 return { status: "verified" }
-              } else {
-                  return "code not found";
-              }
+            } else {
+                return "code not found";
+            }
         } catch (error) {
             throw error
         }
@@ -72,7 +72,7 @@ class UserServices {
                     }
                 ]
             });
-            
+
             const promises = [
                 Users.destroy({ where: { id } }),
                 Cart.destroy({ where: { userId: id } }),
@@ -83,9 +83,31 @@ class UserServices {
             ]
 
             await Promise.all(promises)
-            return {status: "Deleted", userDeleted: user}
+            return { status: "Deleted", userDeleted: user }
         } catch (error) {
             throw error
+        }
+    }
+
+    static async approveUser(id, approved = true) {
+        try {
+            const [count] = await Users.update({ isApproved: approved }, { where: { id } });
+            if (count === 0) return null;
+            const user = await Users.findOne({ where: { id }, attributes: { exclude: ['password', 'codeVerify'] } });
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async setActive(id, active = true) {
+        try {
+            const [count] = await Users.update({ isActive: active }, { where: { id } });
+            if (count === 0) return null;
+            const user = await Users.findOne({ where: { id }, attributes: { exclude: ['password', 'codeVerify'] } });
+            return user;
+        } catch (error) {
+            throw error;
         }
     }
 };

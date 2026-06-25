@@ -4,6 +4,7 @@ const ProductsRoutes = require('./products.route.js');
 const RolesRoutes = require('./roles.route.js');
 const CategoriesRoutes = require('./categories.route.js');
 const AuthRoutes = require('./auth.route.js');
+const OrdersRoutes = require('./orders.route.js');
 
 
-module.exports = { UserRoutes, ProductsRoutes, RolesRoutes, CategoriesRoutes, AuthRoutes };
+module.exports = { UserRoutes, ProductsRoutes, RolesRoutes, CategoriesRoutes, AuthRoutes, OrdersRoutes };

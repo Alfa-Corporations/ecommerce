@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { setHandleShow, setTitleModal, getProductsThunk, getProductsUserThunk } from '../../store/slices';
 import getConfig from '../../utils/getConfig';
+import { API_URL } from '../../utils/api';
 
 const NewProduct = ({ show, setShowFunction }) => {
   const valid = show === 3;
@@ -29,11 +30,10 @@ const NewProduct = ({ show, setShowFunction }) => {
     }
 
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/product', formData, getConfig())
-      .then(res => {
-        console.log(res);
+      .post(`${API_URL}/api/v1/product`, formData, getConfig())
+      .then(() => {
         reset();
-        dispatch(setTitleModal('Successfully added product'));
+        dispatch(setTitleModal('Producto agregado correctamente'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -55,27 +55,27 @@ const NewProduct = ({ show, setShowFunction }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Add new Product</Modal.Title>
+        <Modal.Title>Agregar nuevo producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div style={{ padding: '0 1.5rem' }}>
           <Form onSubmit={handleSubmit(submit)}>
             <Form.Group className='mb-3'>
-              <FloatingLabel className='mb-2' label='Title'>
-                <Form.Control {...register('title')} type='text' placeholder='Title' />
+              <FloatingLabel className='mb-2' label='Nombre'>
+                <Form.Control {...register('title')} type='text' placeholder='Nombre' />
               </FloatingLabel>
 
-              <FloatingLabel className='mb-2' label='Price'>
-                <Form.Control {...register('price')} type='text' placeholder='Enter Price' />
+              <FloatingLabel className='mb-2' label='Precio'>
+                <Form.Control {...register('price')} type='text' placeholder='Precio' />
               </FloatingLabel>
 
-              <FloatingLabel className='mb-2' label='Description'>
-                <Form.Control {...register('description')} as='textarea' placeholder='Leave a comment here' style={{ height: '100px' }} />
+              <FloatingLabel className='mb-2' label='Descripción'>
+                <Form.Control {...register('description')} as='textarea' placeholder='Descripción' style={{ height: '100px' }} />
               </FloatingLabel>
 
               <Form.Select className='mb-2' defaultValue={0} onChange={e => setCategorySelected(Number(e.target.value))}>
                 <option value={0} disabled>
-                  Select Category
+                  Seleccione categoría
                 </option>
                 {categories.map(category => (
                   <option key={category.id} value={category.id}>
@@ -85,14 +85,14 @@ const NewProduct = ({ show, setShowFunction }) => {
               </Form.Select>
 
               <FloatingLabel className='mb-2' label='Stock'>
-                <Form.Control {...register('stock')} type='number' placeholder='Enter Stock' />
+                <Form.Control {...register('stock')} type='number' placeholder='Stock' />
               </FloatingLabel>
 
-              <Form.Label>Images</Form.Label>
+              <Form.Label>Imágenes</Form.Label>
               <Form.Control type='file' {...register('productImgs')} multiple />
             </Form.Group>
             <button type='submit' className='btn_admin'>
-              Add Product
+              Agregar producto
             </button>
           </Form>
         </div>

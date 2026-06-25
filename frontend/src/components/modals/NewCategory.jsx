@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setHandleShow, setTitleModal } from '../../store/slices';
 import { getCategoryThunk } from '../../store/slices/category.slice';
 import getConfig from '../../utils/getConfig';
+import { API_URL } from '../../utils/api';
 
 const NewCategory = ({ show, setShowFunction }) => {
   const valid = show === 9;
@@ -13,9 +14,9 @@ const NewCategory = ({ show, setShowFunction }) => {
 
   const submit = data => {
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/category', data, getConfig())
-      .then(res => {
-        dispatch(setTitleModal('Category created successfully'));
+      .post(`${API_URL}/api/v1/category`, data, getConfig())
+      .then(() => {
+        dispatch(setTitleModal('Categoría creada correctamente'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
@@ -24,6 +25,7 @@ const NewCategory = ({ show, setShowFunction }) => {
         setShowFunction(0);
       })
       .catch(err => {
+        console.error(err);
         dispatch(setTitleModal('Error creating category'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
@@ -35,18 +37,18 @@ const NewCategory = ({ show, setShowFunction }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Add new Category</Modal.Title>
+        <Modal.Title>Agregar nueva categoría</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ padding: '1rem' }}>
         <Form onSubmit={handleSubmit(submit)}>
           <Form.Group className='mb-3'>
-            <FloatingLabel className='mb-2' label='Name'>
-              <Form.Control {...register('name')} type='text' placeholder='Name' />
+            <FloatingLabel className='mb-2' label='Nombre'>
+              <Form.Control {...register('name')} type='text' placeholder='Nombre' />
             </FloatingLabel>
           </Form.Group>
 
           <button type='submit' className='btn_admin'>
-            Create Category
+            Crear categoría
           </button>
         </Form>
       </Modal.Body>

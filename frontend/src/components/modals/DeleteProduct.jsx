@@ -19,7 +19,7 @@ const DeleteProduct = ({ show, setShowFunction }) => {
 
   const submit = () => {
     if (Number(productNumber) === 0) {
-      dispatch(setTitleModal('Select a product'));
+      dispatch(setTitleModal('Seleccione un producto'));
       dispatch(setHandleShow(true));
       setTimeout(() => {
         dispatch(setHandleShow(false));
@@ -28,7 +28,7 @@ const DeleteProduct = ({ show, setShowFunction }) => {
     }
 
     axios
-      .delete(`https://api-ecommerce.alfauzcat.com/api/v1/product/${productNumber}/delete`, getConfig())
+      .delete(`${API_URL}/api/v1/product/${productNumber}/delete`, getConfig())
       .then(() => {
         dispatch(setTitleModal('Deleted product'));
         dispatch(setHandleShow(true));
@@ -51,15 +51,15 @@ const DeleteProduct = ({ show, setShowFunction }) => {
   return (
     <Modal aria-labelledby='contained-modal-title-vcenter' centered show={valid} onHide={() => setShowFunction(0)} backdrop='static' keyboard={false}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete Product</Modal.Title>
+        <Modal.Title>Eliminar producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Are you sure you want to delete a product?</h4>
-        <p>Select the role to product:</p>
+        <h4>¿Seguro que deseas eliminar un producto?</h4>
+        <p>Selecciona el producto que deseas eliminar:</p>
         <Form onSubmit={submit}>
           <FormSelect className='mb-4' defaultValue={0} onChange={e => setProductNumber(e.target.value)}>
             <option value={0} disabled>
-              Select a product
+              Seleccione un producto
             </option>
             {products.map(product => (
               <option value={product.id} key={product.id}>
@@ -68,7 +68,7 @@ const DeleteProduct = ({ show, setShowFunction }) => {
             ))}
           </FormSelect>
           <button type='submit' className='btn_admin'>
-            Delete Product
+            Eliminar producto
           </button>
         </Form>
       </Modal.Body>

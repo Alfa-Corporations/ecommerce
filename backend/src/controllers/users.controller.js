@@ -58,6 +58,32 @@ const getAllUser = async (req, res, next) => {
     }
 };
 
+const approveUser = async (req, res, next) => {
+    try {
+        if (!req.user || req.user.roleId !== 1) return res.status(403).json({ message: 'Not allowed' });
+        const { id } = req.params;
+        const { approved } = req.body; // boolean
+        const result = await UserServices.approveUser(id, approved);
+        if (!result) return res.status(404).json({ message: 'User not found' });
+        res.status(200).json(result);
+    } catch (error) {
+        next({ status: 400, errorContent: error, message: 'Algo salio mal' });
+    }
+};
+
+const setActiveUser = async (req, res, next) => {
+    try {
+        if (!req.user || req.user.roleId !== 1) return res.status(403).json({ message: 'Not allowed' });
+        const { id } = req.params;
+        const { active } = req.body; // boolean
+        const result = await UserServices.setActive(id, active);
+        if (!result) return res.status(404).json({ message: 'User not found' });
+        res.status(200).json(result);
+    } catch (error) {
+        next({ status: 400, errorContent: error, message: 'Algo salio mal' });
+    }
+};
+
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params
@@ -92,7 +118,7 @@ const addPrductToCart = async (req, res, next) => {
         const productToAdded = req.body;
         const result = await ProductsInCartServices.addPrductToCart(id, productToAdded);
         if (result === "No hay stock suficiente") res.status(400).json(result);
-        if(result !== "No hay stock suficiente") res.status(201).json(result);
+        if (result !== "No hay stock suficiente") res.status(201).json(result);
     } catch (error) {
         next({
             status: 400,
@@ -108,7 +134,7 @@ const updateProductInCart = async (req, res, next) => {
         const { productId, quantity } = req.body;
         const result = await ProductsInCartServices.updatePrductToCart(Number(id), productId, quantity);
         if (result === "No hay stock suficiente") res.status(400).json(result);
-        if(result !== "No hay stock suficiente") res.status(200).json(result);
+        if (result !== "No hay stock suficiente") res.status(200).json(result);
     } catch (error) {
         next({
             status: 400,
@@ -164,6 +190,8 @@ module.exports = {
     createUser,
     verifyUser,
     getAllUser,
+    approveUser,
+    setActiveUser,
     deleteUser,
     getAllCart,
     addPrductToCart,

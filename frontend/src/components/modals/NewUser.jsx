@@ -2,34 +2,45 @@ import axios from 'axios';
 import { useState } from 'react';
 import { FloatingLabel, Form, Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { setTitleModal } from '../../store/slices';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHandleShow, setTitleModal } from '../../store/slices';
+import { API_URL } from '../../utils/api';
 
 const NewUser = ({ show, setShowFunction }) => {
+  const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const [role, setRole] = useState(0);
   const valid = show === 1;
 
-  const roles = useSelector(state => state.roles) || [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'User' }
-  ];
+  const roles = useSelector(state => state.roles);
+  const roleOptions = Array.isArray(roles)
+    ? roles
+    : [
+        { id: 1, name: 'Administrador' },
+        { id: 2, name: 'Cliente' }
+      ];
 
   const submit = data => {
     data.role = Number(role);
     axios
-      .post('https://api-ecommerce.alfauzcat.com/api/v1/user', data)
-      .then(res => {
-        console.log(res.data);
+      .post(`${API_URL}/api/v1/user`, data)
+      .then(() => {
         reset();
-        dispatch(setTitleModal('Successfully added user'));
+        dispatch(setTitleModal('Usuario agregado correctamente'));
         dispatch(setHandleShow(true));
         setTimeout(() => {
           dispatch(setHandleShow(false));
         }, 2000);
         setShowFunction(0);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.error(err);
+        dispatch(setTitleModal('Error al crear el usuario'));
+        dispatch(setHandleShow(true));
+        setTimeout(() => {
+          dispatch(setHandleShow(false));
+        }, 2000);
+      });
   };
 
   return (

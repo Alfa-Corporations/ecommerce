@@ -18,9 +18,13 @@ class AuthServices {
                     attributes: ["id"]
                 }
             });
-            if(result) {
+            if (result) {
                 const isValid = bcrypt.compareSync(password, result.password);
-                return isValid ? result :  isValid;
+                if (!isValid) return false;
+                // if user has explicit isApproved === false, deny login
+                if (result.dataValues && result.dataValues.isApproved === false) return 'not-approved';
+                if (result.dataValues && result.dataValues.isActive === false) return 'inactive';
+                return result;
             } else {
                 return result;
             }
