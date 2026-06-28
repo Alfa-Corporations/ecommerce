@@ -15,8 +15,11 @@ const createUser = async (req, res, next) => {
             subject: "Welcome to my store",
             text: `¡Hello! ${userCreated.firstName} this is your verification code: ${userCreated.codeVerify}`,
             html: template(userCreated)
+        }).catch((mailError) => {
+            console.warn('Mail delivery skipped:', mailError.message);
         });
     } catch (error) {
+        console.log(error);
         next({
             status: 400,
             errorContent: error,

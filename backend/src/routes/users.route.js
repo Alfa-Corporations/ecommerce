@@ -335,6 +335,7 @@ router.put('/user/:id/verify', verifyUser);
 router.get('/user/all', getAllUser);
 
 router.put('/user/:id/approve', authenticate, approveUser);
+
 router.put('/user/:id/active', authenticate, setActiveUser);
 
 router.delete('/user/:id', deleteUser);

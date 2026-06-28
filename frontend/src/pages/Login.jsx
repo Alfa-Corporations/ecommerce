@@ -240,7 +240,7 @@ const Login = () => {
                 </span>
               </div>
               <input type='text' placeholder='Teléfono' {...register('phoneNumber')} />
-              <input type='text' placeholder='Cédula' {...register('cedula')} />
+              <input type='text' placeholder='Cédula' {...register('identification')} />
               <button>Crear cuenta</button>
               <p>
                 ¿Ya tienes cuenta? <span onClick={() => changeSection()}>Inicia sesión</span>

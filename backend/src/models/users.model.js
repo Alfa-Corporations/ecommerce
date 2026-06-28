@@ -237,13 +237,15 @@ const Users = db.define('users', {
     },
     phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
         field: "phone_number"
     },
-    cedula: {
+    identification: {
         type: DataTypes.STRING,
-        allowNull: true,
-        field: "cedula"
+        allowNull: false,
+        validate: {
+            len: [10, 13]
+        }
     },
     isApproved: {
         type: DataTypes.BOOLEAN,

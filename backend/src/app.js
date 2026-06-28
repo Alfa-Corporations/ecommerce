@@ -21,9 +21,11 @@ db.authenticate()
     .then(() => console.log('Authenticate complete'))
     .catch(error => console.log(error));
 
-db.sync({ force: false })
-    .then(() => console.log('Synchronized database'))
-    .catch(error => console.log(error));
+if (process.env.NODE_ENV !== 'test') {
+    db.sync({ force: false, alter: true })
+        .then(() => console.log('Synchronized database'))
+        .catch(error => console.log(error));
+}
 
 initModels();
 

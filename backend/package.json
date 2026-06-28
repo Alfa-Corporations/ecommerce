@@ -1,23 +1,30 @@
 {
-  "name": "ecommerce-backend",
-  "version": "1.5.0",
-  "description": "Database for my Ecommerce",
-  "main": "index.js",
+  "name": "api-ecommerce",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Alfa-Corporations/ecommerce#readme",
+  "bugs": {
+    "url": "https://github.com/Alfa-Corporations/ecommerce/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alfa-Corporations/ecommerce.git"
+  },
+  "license": "ISC",
+  "author": "Luis Uzcategui",
+  "type": "commonjs",
+  "main": "swagger.js",
   "scripts": {
+    "test": "node test-api.js",
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
-    "seed": "node ./src/seeders/seeder.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "seed": "node ./src/seeders/seeder.js"
   },
-  "keywords": [],
-  "author": "Corporations Alfa",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "nodemailer": "^9.0.1",

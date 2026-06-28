@@ -10,8 +10,8 @@ const roles = [
 ]
 
 const users = [
-    { firstName: "Luis", lastName: "Uzcategui",isVerify: true, email: "alfonsouzcategui2@gmail.com", phoneNumber: "+593979010717", password: "123123", roleId: 1 },
-    { firstName: "John", lastName: "Doe",isVerify: true, email: "john@gmail.com", phoneNumber: "0123456789", password: "john1234" },
+    { identification: "0152720124", firstName: "Luis", lastName: "Uzcategui", isVerify: true, email: "alfonsouzcategui1811@gmail.com", phoneNumber: "0998716873", password: "123123", roleId: 1, isApproved: true },
+    { identification: "0123456789", firstName: "John", lastName: "Doe",isVerify: true, email: "john@gmail.com", phoneNumber: "0123456789", password: "john1234" },
 ]
 
 const carts = [
@@ -50,16 +50,16 @@ db.sync({ force: true })
     .then(() => {
         console.log("Iniciando la plantación de Información");
         roles.forEach(role => Roles.create(role));
-        categories.forEach(category => Categories.create(category));
+        //categories.forEach(category => Categories.create(category));
         setTimeout(() => {
             users.forEach(user => Users.create(user));
         }, 1000);
         setTimeout(() => {
             carts.forEach(cart => Cart.create(cart));
         }, 3000);
-        setTimeout(() => {
-            products.forEach(product => Products.create(product));
-        }, 4000);
+        //setTimeout(() => {
+        //    products.forEach(product => Products.create(product));
+        //}, 4000);
     })
     .catch((error) => console.log(error))
     .finally(() => console.log("Implantation complete"))

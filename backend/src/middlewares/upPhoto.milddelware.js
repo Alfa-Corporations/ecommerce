@@ -1,32 +1,28 @@
 const fs = require('fs');
 const path = require('path');
-const Jimp = require('jimp');
 
 const UpPhoto = async (files) => {
+    // 1. Ruta absoluta de la carpeta de subidas
     const uploadsDir = path.join(__dirname, '../../uploads');
+
+    // 2. Crear el directorio nativamente si no existe
     await fs.promises.mkdir(uploadsDir, { recursive: true });
 
+    // 3. Procesar cada archivo en paralelo
     const uploadPromises = files.map(async (file) => {
         const timestamp = Date.now();
+
+        // Sanitizar el nombre original para evitar problemas con caracteres extraños
         const safeName = file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_');
 
-        if (file.mimetype && file.mimetype.startsWith('image/')) {
-            const filename = `${timestamp}-${safeName}.webp`;
-            const filepath = path.join(uploadsDir, filename);
-
-            const image = await Jimp.read(file.buffer);
-            image.resize(1280, Jimp.AUTO);
-            image.quality(80);
-            const processedBuffer = await image.getBufferAsync(Jimp.MIME_WEBP);
-
-            await fs.promises.writeFile(filepath, processedBuffer);
-            return `/uploads/${encodeURIComponent(filename)}`;
-        }
-
-        // non-image fallback: save raw buffer
+        // Conservar el formato/extensión original que viene desde el frontend
         const filename = `${timestamp}-${safeName}`;
         const filepath = path.join(uploadsDir, filename);
+
+        // 4. Guardar el buffer crudo directamente en el servidor de forma nativa
         await fs.promises.writeFile(filepath, file.buffer);
+
+        // Retornar la URL limpia para tu base de datos
         return `/uploads/${encodeURIComponent(filename)}`;
     });
 
