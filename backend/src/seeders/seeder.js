@@ -11,7 +11,7 @@ const roles = [
 
 const users = [
     { identification: "0152720124", firstName: "Luis", lastName: "Uzcategui", isVerify: true, email: "alfonsouzcategui1811@gmail.com", phoneNumber: "0998716873", password: "123123", roleId: 1, isApproved: true },
-    { identification: "0123456789", firstName: "John", lastName: "Doe",isVerify: true, email: "john@gmail.com", phoneNumber: "0123456789", password: "john1234" },
+    { identification: "070386534001", firstName: "multicomercios", lastName: "castro",isVerify: true, email: "multicomerciocastrocentral@gmail.com", phoneNumber: "0994216427", password: "multicomerciocastrocentral", roleId: 1, isApproved: true },
 ]
 
 const carts = [
