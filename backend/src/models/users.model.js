@@ -268,7 +268,7 @@ const Users = db.define('users', {
     },
     isVerify: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false,
+        defaultValue: true,
         field: "is_verify"
     },
     codeVerify: {
