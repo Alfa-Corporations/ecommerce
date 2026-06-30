@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setHandleShow, setTitleModal } from '../../store/slices';
 import { getProductsUserThunk } from '../../store/slices/productUser.slice';
 import getConfig from '../../utils/getConfig';
+import { API_URL } from '../../utils/api';
 
 const DeleteProduct = ({ show, setShowFunction }) => {
   const valid = show === 4;
