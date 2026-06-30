@@ -114,12 +114,12 @@ const Home = () => {
                 <Form onSubmit={handleSubmit(filterForPrice)} className='form-search-price'>
                   <Form.Group className='mb-1'>
                     <FloatingLabel label='From'>
-                      <Form.Control type='text' placeholder='From' {...register('from')} />
+                      <Form.Control type='text' placeholder='min' {...register('from')} />
                     </FloatingLabel>
                   </Form.Group>
                   <Form.Group className='mb-1'>
                     <FloatingLabel label='To'>
-                      <Form.Control type='text' placeholder='To' {...register('to')} />
+                      <Form.Control type='text' placeholder='max' {...register('to')} />
                     </FloatingLabel>
                   </Form.Group>
                   <button className='btn-filter-price'>Filtrar Precio</button>
